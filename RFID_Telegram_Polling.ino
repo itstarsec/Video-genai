@@ -18,7 +18,7 @@ WiFiClient wifiClient;
 MFRC522 rfid_reader(RFID_SS_PIN, RFID_RST_PIN);
 unsigned long lastCheckTime = 0; // Biến để theo dõi thời gian kiểm tra trạng thái
 unsigned long lastEepromClearTime = 0; // Biến theo dõi thời gian giải phóng EEPROM
-const unsigned long checkInterval = 5000; // Thời gian delay giữa các lần kiểm tra (10 giây)
+const unsigned long checkInterval = 5000; // Thời gian delay giữa các lần kiểm tra (5 giây)
 bool cardDetected = false; // Trạng thái thẻ đã được quét
 
 void setup() {
