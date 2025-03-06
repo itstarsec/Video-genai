@@ -17,6 +17,9 @@ const char* updateStatusUrl = "http://192.168.1.52:8888/update-status"; // Endpo
 WiFiClient wifiClient;
 MFRC522 rfid_reader(RFID_SS_PIN, RFID_RST_PIN);
 
+unsigned long lastCheckTime = 0; // Biến để theo dõi thời gian kiểm tra trạng thái
+const unsigned long checkInterval = 5000; // Thời gian delay giữa các lần kiểm tra (5 giây)
+
 void setup() {
     Serial.begin(115200);
     pinMode(RELAY_PIN, OUTPUT);
@@ -42,7 +45,11 @@ void loop() {
     check_for_new_card(); // Kiểm tra thẻ RFID mới
 
     // Kiểm tra trạng thái từ server để điều khiển relay
-    check_status_from_server();
+    unsigned long currentMillis = millis();
+    if (currentMillis - lastCheckTime >= checkInterval) {
+        check_status_from_server();
+        lastCheckTime = currentMillis; // Cập nhật thời gian kiểm tra mới
+    }
 
     delay(100); // Thời gian nghỉ ngắn để tránh sử dụng CPU quá tải
 }
